@@ -1,0 +1,10 @@
+<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <!-- White stripe -->
+    <rect width="512" height="170.7" fill="#ffffff"/>
+
+    <!-- Blue stripe -->
+    <rect y="170.7" width="512" height="170.6" fill="#0033a0"/>
+
+    <!-- Red stripe -->
+    <rect y="341.3" width="512" height="170.7" fill="#d52b1e"/>
+</svg>

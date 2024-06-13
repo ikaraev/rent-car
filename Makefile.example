@@ -1,0 +1,50 @@
+_dc = docker-compose
+prepare_env: build_env build_service start_service composer_install npm_install init_app storage_link
+
+build_env:
+	cp .env.example .env
+	@echo '.env file was created.'
+
+build_service:
+	@echo 'Build service'
+	$(_dc) build
+
+start_service:
+	@echo 'Service run'
+	$(_dc) up -d
+	@sleep 10
+
+composer_install:
+	@echo 'Composer install'
+	$(_dc) exec php-booking composer install
+
+npm_install:
+	@echo 'npm install'
+	$(_dc) exec node-booking npm install
+
+init_app:
+	@echo 'Run migrations'
+	$(_dc) exec php-booking php artisan migrate
+	@echo 'Key generate'
+	$(_dc) exec php-booking php artisan key:generate
+	@echo 'Full cache clean'
+	$(_dc) exec php-booking php artisan config:cache
+	$(_dc) exec php-booking php artisan route:cache
+	$(_dc) exec php-booking php artisan view:cache
+	@echo 'Creating storage symlink'
+	$(_dc) exec php-booking php artisan storage:link
+
+run_migrations:
+	@echo 'Run migrations'
+	$(_dc) exec php-booking php artisan migrate
+
+generate_app_key:
+	$(_dc) exec php-booking php artisan key:generate
+
+full_cache_clean:
+	$(_dc) exec php-booking php artisan config:cache
+	$(_dc) exec php-booking php artisan route:cache
+	$(_dc) exec php-booking php artisan view:cache
+
+storage_link:
+    $(_dc) exec php-booking php artisan storage:link
